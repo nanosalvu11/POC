@@ -52,6 +52,54 @@ function App() {
     }
   };
 
+  // Función para actualizar un mensaje (PUT)
+  const updateMessage = async (messageId, newContent) => {
+    try {
+      const response = await axios.put(
+        `/api/messages/${messageId}`,
+        { content: newContent },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'token123',
+          },
+        }
+      );
+      console.log('Message updated:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating message:', error);
+      throw error;
+    }
+  };
+
+  // Función para eliminar un mensaje (DELETE)
+  const deleteMessage = async (messageId) => {
+    try {
+      const response = await axios.delete(`/api/messages/${messageId}`, {
+        headers: {
+          Authorization: 'token123',
+        },
+      });
+      console.log('Message deleted:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      throw error;
+    }
+  };
+
+
+  const testUpdateMessage = (e) => {
+    e.preventDefault();
+    updateMessage(1, 'Mensaje actualizado desde el frontend');
+    setContent('');
+  };
+
+  const testDeleteMessage = () => {
+    deleteMessage(1);
+  };
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -66,16 +114,14 @@ function App() {
             <div className="current-user-avatar">
               {currentUser.name.charAt(0).toUpperCase()}
             </div>
-            <span className="current-user-name">
-              {currentUser.name}
-            </span>
+            <span className="current-user-name">{currentUser.name}</span>
           </div>
         ) : null}
       </header>
 
       <main className="main-content single-section">
         <section className="message-section">
-          <h2 className="section-title">Enviar Mensaje</h2>
+          <h2 className="section-title">Mensajes</h2>
           <form className="message-form" onSubmit={onSendClick}>
             <div className="input-group">
               <textarea
@@ -86,20 +132,51 @@ function App() {
                 rows="3"
               />
             </div>
-            <button
-              type="submit"
-              className={`send-button ${isSending ? 'sending' : ''}`}
-              disabled={isSending || !content.trim()}
-            >
-              {isSending ? (
-                <>
-                  <div className="button-spinner"></div>
-                  Enviando...
-                </>
-              ) : (
-                <>Enviar</>
-              )}
-            </button>
+
+            <div className="action-buttons">
+              <button
+                type="submit"
+                className={`action-button send-button ${
+                  isSending ? 'sending' : ''
+                }`}
+                disabled={isSending || !content.trim()}
+              >
+                {isSending ? (
+                  <>
+                    <div className="button-spinner"></div>
+                    Enviando...
+                  </>
+                ) : (
+                  <>Enviar</>
+                )}
+              </button>
+
+              <button
+                type="submit"
+                className={`action-button update-button ${
+                  isSending ? 'sending' : ''
+                }`}
+                disabled={isSending || !content.trim()}
+                onClick={testUpdateMessage}
+              >
+                {isSending ? (
+                  <>
+                    <div className="button-spinner"></div>
+                    Modificando...
+                  </>
+                ) : (
+                  <>Modificar</>
+                )}
+              </button>
+
+              <button
+                type="button"
+                className="action-button delete-button"
+                onClick={testDeleteMessage}
+              >
+                Eliminar
+              </button>
+            </div>
           </form>
         </section>
       </main>

@@ -86,25 +86,6 @@
   max-width: 600px;
 }
 
-@media (max-width: 768px) {
-  .main-content {
-    grid-template-columns: 1fr;
-  }
-
-  .main-content.single-section {
-    max-width: 100%;
-  }
-
-  .user-info {
-    max-width: 250px;
-    padding: 0.8rem 1.5rem;
-  }
-
-  .current-user-name {
-    font-size: 1rem;
-  }
-}
-
 /* Secciones */
 .message-section {
   background: rgba(30, 30, 40, 0.95);
@@ -188,33 +169,75 @@
   color: #888;
 }
 
-/* Botón de envío */
-.send-button {
-  background: linear-gradient(135deg, #144fef 0%, #99f5ff 100%);
-  color: white;
-  border: none;
+/* Contenedor de botones de acción */
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Estilo base para todos los botones de acción */
+.action-button {
   padding: 1rem 2rem;
+  border: none;
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  min-height: 60px;
+  flex: 1;
+}
+
+/* Botón de envío */
+.action-button.send-button {
+  background: linear-gradient(135deg, #144fef 0%, #99f5ff 100%);
   box-shadow: 0 4px 15px #73b0ff4d;
 }
 
-.send-button:hover:not(:disabled) {
+.action-button.send-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px #73b0ff4d;
 }
 
-.send-button:disabled {
+.action-button.send-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+/* Botón de actualización */
+.action-button.update-button {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+}
+
+.action-button.update-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+}
+
+.action-button.update-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botón de eliminación */
+.action-button.delete-button {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.action-button.delete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
 }
 
 .send-button.sending {
@@ -276,5 +299,9 @@
 
   .current-user-name {
     font-size: 1rem;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
   }
 }
